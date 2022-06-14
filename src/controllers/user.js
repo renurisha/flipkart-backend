@@ -7,7 +7,7 @@ const { tokenVerify } = require("./middlewares");
 const { check, validationResult } = require("express-validator");
 
 router.get("/user/home", (req, res) => {
-  res.status(201).send("home page...");
+  res.status(201).send(" user home page...");
 });
 router.post(
   "/user/register",

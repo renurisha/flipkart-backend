@@ -32,11 +32,11 @@ router.post(
     const errors = validationResult(req);
     console.log("error", errors);
     if (!errors.isEmpty()) {
-      return res.status(401).send(errors);
+      return res.status(401).send({ message: errors });
     } else {
       const data = await User.findOne({ email: req.body.email });
       if (data) {
-        return res.status(401).send("email already exist...");
+        return res.status(401).send({ message: "email already exist..." });
       }
 
       const salt = await bcrypt.genSalt(10);
@@ -84,6 +84,7 @@ router.post(
             expiresIn: "5h",
           }
         );
+        res.cookie("token", token, { expiresIn: "5h" });
         //  const { name, email, password, role } = user
         return res.status(201).send({
           token: token,
@@ -102,4 +103,9 @@ router.post(
       .send({ message: " this admin user doesn't exist..." });
   }
 );
+
+router.post("/admin/signout", tokenVerify, (req, res) => {
+  res.clearCookie("token");
+  res.status(201).json({ message: "siunout successfully" });
+});
 module.exports = router;

@@ -24,37 +24,42 @@ const findCategoryList = (category, parentId = null) => {
   }
   return list;
 };
-router.get("/category", async (req, res) => {
+router.get("/category/getcategory", async (req, res) => {
   const cat = await category.find();
   if (!cat) {
-    return res.send("this category is not founded");
+    return res.status(401).send({ message: "this category is not founded" });
   } else {
     const categorylist = findCategoryList(cat);
-    return res.send({
-      message: "successfully",
+    return res.status(201).send({
+      message: "successfully find category...",
       category: categorylist,
     });
   }
 });
 
-router.post("/category", tokenVerify, adminMiddleware, (req, res) => {
-  const obj = {
-    name: req.body.name,
-    slug: slugify(req.body.name),
-  };
-  if (req.body.parentId) {
-    obj.parentId = req.body.parentId;
+router.post(
+  "/category/addcategory",
+  tokenVerify,
+  adminMiddleware,
+  (req, res) => {
+    const obj = {
+      name: req.body.name,
+      slug: slugify(req.body.name),
+    };
+    if (req.body.parentId) {
+      obj.parentId = req.body.parentId;
+    }
+    const cat = new category(obj);
+    cat.save((err, categoty) => {
+      if (err) {
+        return res.status(401).json({ err });
+      }
+      if (category) {
+        return res
+          .status(201)
+          .json({ message: "category created successfully..", category: cat });
+      }
+    });
   }
-  const cat = new category(obj);
-  cat.save((err, categoty) => {
-    if (err) {
-      return res.status(401).json({ err });
-    }
-    if (category) {
-      return res
-        .status(201)
-        .json({ message: "category created successfully..", category: cat });
-    }
-  });
-});
+);
 module.exports = router;

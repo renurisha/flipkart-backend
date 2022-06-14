@@ -5,5 +5,5 @@ mongoose
   .connect(process.env.DATABASE)
   .then(() => console.log("connection succefully...."))
   .catch((e) => {
-    console.log("connection failed........");
+    console.log("connection failed....");
   });

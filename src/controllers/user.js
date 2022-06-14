@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const { tokenVerify } = require("./middlewares");
 const { check, validationResult } = require("express-validator");
 
-router.post("/user/home", tokenVerify, (req, res) => {
+router.get("/user/home", tokenVerify, (req, res) => {
   res.status(201).send("home page...");
 });
 router.post(

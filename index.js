@@ -10,7 +10,7 @@ const categoryRoute = require("./src/controllers/category");
 
 const productRoute = require("./src/controllers/product");
 const cartRoute = require("./src/controllers/cart");
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

@@ -62,10 +62,7 @@ router.post(
       if (await bcrypt.compare(req.body.password, user.password)) {
         const token = jwt.sign(
           { _id: user._id, role: user.role },
-          process.env.SECRET_KEY,
-          {
-            expiresIn: "5h",
-          }
+          process.env.SECRET_KEY
         );
         //  const { name, email, password, role } = user
         return res.status(201).send({

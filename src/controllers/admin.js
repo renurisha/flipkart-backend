@@ -79,10 +79,8 @@ router.post(
       ) {
         const token = jwt.sign(
           { _id: user._id, role: user.role },
-          process.env.SECRET_KEY,
-          {
-            expiresIn: "5h",
-          }
+          process.env.SECRET_KEY
+          
         );
         res.cookie("token", token, { expiresIn: "5h" });
         //  const { name, email, password, role } = user

@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     quantity: {
-      type: String,
+      type: Number,
       required: true,
     },
     description: {
@@ -36,9 +36,14 @@ const productSchema = new mongoose.Schema(
       {
         userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 
-        review: { type: String },
+        review: { type: Number },
       },
     ],
+    category_name: {
+      type: String,
+      required: true,
+    },
+
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",

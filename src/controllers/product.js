@@ -1,5 +1,6 @@
 const express = require("express");
 const Product = require("../models/product");
+const category = require("../models/category");
 const slugify = require("slugify");
 const { adminMiddleware } = require("./middlewares");
 const { tokenVerify } = require("./middlewares");
@@ -45,6 +46,7 @@ router.post(
       category,
       quantity,
       reviews,
+      category_name,
 
       createdBy,
     } = req.body;
@@ -57,6 +59,7 @@ router.post(
     const product = new Product({
       name,
       slug: slugify(req.body.name),
+      category_name,
       category,
       description,
       quantity,
@@ -70,23 +73,11 @@ router.post(
     res.send({ message: "product created successfully", product: prod });
   }
 );
-module.exports = router;
 
-// const obj = {
-//     name: req.body.name,
-//     slug: slugify(req.body.name),
-//   };
-//   if (req.body.parentId) {
-//     obj.parentId = req.body.parentId;
-//   }
-//   const cat = new Product(obj);
-//   cat.save((err, categoty) => {
-//     if (err) {
-//       return res.status(401).json({ err });
-//     }
-//     if (category) {
-//       return res
-//         .status(201)
-//         .json({ message: "product created successfully..", product: cat });
-//     }
-//   });
+router.get("/data/alldata", async (req, res) => {
+  const cat = await category.find();
+  const product = await Product.find();
+  res.status(201).send({ category: cat, product: product });
+});
+
+module.exports = router;

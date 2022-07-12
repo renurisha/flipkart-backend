@@ -9,6 +9,14 @@ const { check, validationResult } = require("express-validator");
 router.get("/user/home", (req, res) => {
   res.status(201).send(" user home page...");
 });
+router.get("/user/check", (req, res) => {
+  res.status(201).send(" user home page...");
+});
+
+router.get("/user/allusers", async (req, res) => {
+  const user = await User.find();
+  res.status(201).send(user);
+});
 router.post(
   "/user/register",
   [
